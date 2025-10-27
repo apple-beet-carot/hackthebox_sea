@@ -107,7 +107,78 @@ Target: http://10.129.34.76/
                                                                              
 Task Completed
 ```
-Next, I tried running ffuf on the target, and it actually returned something useful.
+Next, I tried running ffuf on the target, and it actually returned some useful keywords like 'bike'. While browsing the target, I noticed that the site has a bicycle theme.
 ```
+┌──(venv)─(kali㉿kali)-[~/htb/dirsearch]
+└─$ ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -u "http://10.129.34.76/themes/FUZZ" -c -v
+
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v2.1.0-dev
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://10.129.34.76/themes/FUZZ
+ :: Wordlist         : FUZZ: /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 40
+ :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500
+________________________________________________
+
+
+[Status: 301, Size: 240, Words: 14, Lines: 8, Duration: 256ms]
+| URL | http://10.129.34.76/themes/bike
+| --> | http://10.129.34.76/themes/bike/
+    * FUZZ: bike
+```
+Then I ran dirsearch again on the target (using a 'bike' payload), and it finally returned something I could use to proceed to the next stage.
+Check the pages that returned a 200 status code.
+```
+┌──(venv)─(kali㉿kali)-[~/htb/dirsearch]
+└─$ python ./dirsearch.py -u http://10.129.34.76/themes/bike/                                                          
+/home/kali/htb/dirsearch/lib/core/installation.py:24: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+
+  _|. _ _  _  _  _ _|_    v0.4.3                                                                                                                
+ (_||| _) (/_(_|| (_| )                                                                                                                         
+                                                                                                                                                
+Extensions: php, asp, aspx, jsp, html, htm | HTTP method: GET | Threads: 25 | Wordlist size: 12293
+
+Target: http://10.129.34.76/
+
+[20:55:37] Scanning: themes/bike/                                                                                                               
+[20:56:05] 403 -   199B - /themes/bike/.php                                 
+[20:56:21] 200 -    3KB - /themes/bike/404                                  
+[20:56:42] 403 -   199B - /themes/bike/admin%20/                            
+[20:56:49] 200 -    4KB - /themes/bike/admin/home                           
+[20:58:13] 301 -   244B - /themes/bike/css  ->  http://10.129.34.76/themes/bike/css/
+[20:58:39] 200 -    4KB - /themes/bike/home                                 
+[20:58:41] 301 -   244B - /themes/bike/img  ->  http://10.129.34.76/themes/bike/img/
+[20:58:55] 200 -    1KB - /themes/bike/LICENSE                              
+[20:58:58] 403 -   199B - /themes/bike/login.wdm%20                         
+[20:59:13] 403 -   199B - /themes/bike/New%20Folder                         
+[20:59:13] 403 -   199B - /themes/bike/New%20folder%20(2)
+[20:59:20] 403 -   199B - /themes/bike/phpliteadmin%202.php                 
+[20:59:28] 403 -   199B - /themes/bike/Read%20Me.txt                        
+[20:59:28] 200 -   318B - /themes/bike/README.md                            
+[20:59:40] 200 -    4KB - /themes/bike/sitecore/content/home                
+[20:59:46] 200 -    4KB - /themes/bike/sym/root/home/                       
+[20:59:58] 200 -     6B - /themes/bike/version                              
+[20:59:58] 404 -   196B - /themes/bike/version/                             
+                                                                             
+Task Completed
+```
+
+#### Step4. What is the 2023 CVE ID for an unauthenticated cross site scripting vulnerability in WonderCMS that can lead to remote code execution?
+Use google with keywords in the quiz.
+- https://nvd.nist.gov/vuln/detail/CVE-2023-41425
+
+#### Step5. What system user on Sea is the website running as?
 Empty
-```
