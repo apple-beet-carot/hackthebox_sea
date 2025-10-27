@@ -175,7 +175,24 @@ Target: http://10.129.34.76/
                                                                              
 Task Completed
 ```
+You can read the REAEME.md
+```
+# WonderCMS bike theme
 
+## Description
+Includes animations.
+
+## Author: turboblack
+
+## Preview
+![Theme preview](/preview.jpg)
+
+## How to use
+1. Login to your WonderCMS website.
+2. Click "Settings" and click "Themes".
+3. Find theme in the list and click "install".
+4. In the "General" tab, select theme to activate it.
+```
 #### Step4. What is the 2023 CVE ID for an unauthenticated cross site scripting vulnerability in WonderCMS that can lead to remote code execution?
 Use google with keywords in the quiz.
 - https://nvd.nist.gov/vuln/detail/CVE-2023-41425
